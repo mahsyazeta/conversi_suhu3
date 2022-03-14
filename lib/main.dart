@@ -17,6 +17,8 @@ class _MyAppState extends State<MyApp> {
   String selectedDropdown = 'Kelvin';
   List<String> listSatuanSuhu = ['Kelvin','Reamur','Fahrenheit'];
   double hasil = 0;
+  List<String> listHasil = [];
+
 
   void _incrementCounter(){
     setState(() {
@@ -29,6 +31,32 @@ class _MyAppState extends State<MyApp> {
         selectedDropdown = value.toString();
     });
   } 
+
+  void konversi() {
+    return setState(() {
+        if (etInput.text.isNotEmpty) {
+          switch (selectedDropdown) {
+          case 'Kelvin':
+            hasil = int.parse(etInput.text) + 273.15;
+            break;
+          case 'Reamur':
+            hasil = int.parse(etInput.text) * 4/5;
+            break;
+          case 'Fahrenheit':
+            hasil = int.parse(etInput.text)* (9/5) +32;
+            break;
+          default:
+          }
+          
+          listHasil.add('Konversi dari '+ 
+            etInput.text +
+            ' Celcius ke '+
+            selectedDropdown+
+            ' dengan hasil : '+
+            hasil.toString());
+        }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,6 +109,13 @@ class _MyAppState extends State<MyApp> {
               ),
               SizedBox(height: 10,),
               Text('Riwayat konversi',style: TextStyle(fontSize: 20),),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: listHasil.length,
+                  itemBuilder: (context, index) {
+                    return Text(listHasil[index]);
+                  }),
+              ),
             ],
           ),
         ),
@@ -88,22 +123,5 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  void konversi() {
-    return setState(() {
-        if (etInput.text.isNotEmpty) {
-          switch (selectedDropdown) {
-          case 'Kelvin':
-            hasil = int.parse(etInput.text) + 273.15;
-            break;
-          case 'Reamur':
-            hasil = int.parse(etInput.text) * 4/5;
-            break;
-          case 'Fahrenheit':
-            hasil = int.parse(etInput.text)* (9/5) +32;
-            break;
-          default:
-          }
-        }
-    });
-  }   
+     
 }
