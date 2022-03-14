@@ -15,7 +15,9 @@ class _MyAppState extends State<MyApp> {
   int _counter = 0;
   TextEditingController etInput = TextEditingController();
   String selectedDropdown = 'Kelvin';
-  List<String> listSatuanSuhu = ['Kelvin','Reamour','Fahrenheit'];
+  List<String> listSatuanSuhu = ['Kelvin','Reamur','Fahrenheit'];
+  double hasil = 0;
+
   void _incrementCounter(){
     setState(() {
       _counter++;
@@ -41,6 +43,7 @@ class _MyAppState extends State<MyApp> {
             children:[
               TextField(
                 controller: etInput,
+                keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   labelText: 'Celcius',
                   hintText: 'enter the temperature in celcius'
@@ -62,13 +65,15 @@ class _MyAppState extends State<MyApp> {
               ),
               SizedBox(height: 10,),
               Text('Hasil',style: TextStyle(fontSize: 24),),
-              Text('365',style: TextStyle(fontSize: 36),),
+              Text('$hasil',style: TextStyle(fontSize: 36),),
               SizedBox(height: 8,),
               Row(
                 children: [
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: (){}, 
+                      onPressed: (){
+                        konversi();
+                      }, 
                       child: Text('conversi suhu')
                     ),
                   ),
@@ -81,5 +86,24 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
     );
+  }
+
+  void konversi() {
+    return setState(() {
+        if (etInput.text.isNotEmpty) {
+          switch (selectedDropdown) {
+          case 'Kelvin':
+            hasil = int.parse(etInput.text) + 273.15;
+            break;
+          case 'Reamur':
+            hasil = int.parse(etInput.text) * 4/5;
+            break;
+          case 'Fahrenheit':
+            hasil = int.parse(etInput.text)* (9/5) +32;
+            break;
+          default:
+          }
+        }
+    });
   }   
 }
