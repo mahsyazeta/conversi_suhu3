@@ -1,3 +1,8 @@
+import 'package:conversi_suhu3/widgets/hasilKonversi.dart';
+import 'package:conversi_suhu3/widgets/inputSuhu.dart';
+import 'package:conversi_suhu3/widgets/konversiSuhu.dart';
+import 'package:conversi_suhu3/widgets/pilihanKonvert.dart';
+import 'package:conversi_suhu3/widgets/riwayat.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -47,7 +52,7 @@ class _MyAppState extends State<MyApp> {
             break;
           default:
           }
-          
+
           listHasil.add('Konversi dari '+ 
             etInput.text +
             ' Celcius ke '+
@@ -69,59 +74,43 @@ class _MyAppState extends State<MyApp> {
           margin: EdgeInsets.all(8),
           child: Column(
             children:[
-              TextField(
-                controller: etInput,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  labelText: 'Celcius',
-                  hintText: 'enter the temperature in celcius'
-                ),
+              inputSuhu(
+                etInput: etInput
               ),
               SizedBox(height: 8,),
-              DropdownButton(
-                isExpanded: true,
-                value: selectedDropdown,
-                items: listSatuanSuhu.map((String value){
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(), 
-                onChanged: (value){
-                  onDropdownChange(value);
-                },
+              pilihanKonvert(
+                selectedDropdown: selectedDropdown, 
+                listSatuanSuhu: listSatuanSuhu, 
+                onDropdownChange: onDropdownChange,
               ),
               SizedBox(height: 10,),
-              Text('Hasil',style: TextStyle(fontSize: 24),),
-              Text('$hasil',style: TextStyle(fontSize: 36),),
+              Text(
+                'Hasil',style: TextStyle(fontSize: 24),
+              ),
+              hasilKonversi(
+                hasil: hasil
+              ),
               SizedBox(height: 8,),
-              Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: (){
-                        konversi();
-                      }, 
-                      child: Text('conversi suhu')
-                    ),
-                  ),
-                ],
+              konversiSuhu(
+                onPressed: konversi,
               ),
               SizedBox(height: 10,),
               Text('Riwayat konversi',style: TextStyle(fontSize: 20),),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: listHasil.length,
-                  itemBuilder: (context, index) {
-                    return Text(listHasil[index]);
-                  }),
-              ),
+              riwayat(listHasil: listHasil),
             ],
           ),
         ),
       ),
     );
-  }
-
-     
+  }     
 }
+
+
+
+
+
+
+
+
+
+
